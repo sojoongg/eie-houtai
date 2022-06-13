@@ -44,7 +44,7 @@ export default {
         DOrder: "",
         customerID: "",
       },
-      tableData: [{}],
+      tableData: [],
     };
   },
 
