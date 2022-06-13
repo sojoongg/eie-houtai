@@ -1,7 +1,7 @@
 <template>
-  <el-form :model="formData" label-width="120px">
+  <el-form :model="{ formData }" label-width="120px">
     <el-form-item label="运单号">
-      <el-input v-model="formData.DOrder" />
+      <el-input ref="DOrder" v-model="formData.DOrder" />
     </el-form-item>
 
     <el-form-item label="客户 ID">
@@ -10,74 +10,68 @@
 
     <el-form-item>
       <el-button type="primary" @click.prevent="onSubmit">确认到库</el-button>
-      <el-button @click="onCancel">Cancel</el-button>
+      <el-button @click="onCancel">清除</el-button>
     </el-form-item>
   </el-form>
 
-  <!-- <el-table :data="tableData" style="width: 100%">
-    <el-table-column fixed prop="date" label="Date" width="150" />
-    <el-table-column prop="address" label="运单号" width="600" />
-    <el-table-column prop="name" label="运输公司" width="120" />
-    <el-table-column prop="state" label="客户ID" width="120" />
-    <el-table-column prop="city" label="订单类型" width="120" />
+  <div class="container">
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column type="index" prop="index" label="序号" width="150" />
+      <el-table-column prop="deliveryOrder" label="运单号" width="600" />
+      <el-table-column prop="companyName" label="运输公司" width="120" />
+      <el-table-column prop="customerID" label="客户ID" width="120" />
+      <el-table-column prop="typeOfOrder" label="订单类型" width="120" />
 
-    <el-table-column fixed="right" label="操作" width="120">
-      <template #default>
-        <el-button link type="primary" size="small" @click="handleClick"
-          >Detail</el-button
-        >
-        <el-button link type="primary" size="small">Edit</el-button>
-      </template>
-    </el-table-column>
-  </el-table> -->
+      <el-table-column fixed="right" label="操作" width="120">
+        <template #default>
+          <el-button link type="primary" size="small">修改信息</el-button>
+          <el-button link type="primary" size="small" @click="onDel(index)">
+            删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <script >
 // import { reactive } from "vue";
 
 export default {
-  props: ["DOrder", "customerID"],
-
   data() {
     return {
       formData: {
         DOrder: "",
         customerID: "",
       },
-      // tableData: [
-      //   {
-      //     date: "2016-05-03",
-      //     name: "Tom",
-      //     state: "California",
-      //     city: "Los Angeles",
-      //     address: "No. 189, Grove St, Los Angeles",
-      //     zip: "CA 90036",
-      //     tag: "Home",
-      //   },
-      // ],
+      tableData: [
+        {
+          deliveryOrder: "998123012",
+          customerID: "80656",
+        },
+      ],
     };
   },
 
   methods: {
     onSubmit() {
       console.log(this.formData);
+
+      this.tableData.push({
+        deliveryOrder: this.formData.DOrder,
+        customerID: this.formData.customerID,
+      });
     },
     onCancel() {
       console.log("reset form item");
-      this.formData = "";
+      this.formData = {};
+    },
+    onDel(index) {
+      console.log("im deleted");
+      console.log(this.tableData.indexOf(index));
+      this.tableData.splice(index, 1);
     },
   },
-  // do not use same name with ref
-  // var formData = reactive({
-  //   name: "",
-  //   customerID: "",
-  // }),
-
-  // const onSubmit = () => {
-  //   console.log("submit!");
-  // };
 };
 </script>
 
-<style scoped>
-</style>
