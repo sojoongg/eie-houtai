@@ -46,8 +46,8 @@ export default {
       },
       tableData: [
         {
-          deliveryOrder: "998123012",
-          customerID: "80656",
+          deliveryOrder: "",
+          customerID: "",
         },
       ],
     };
