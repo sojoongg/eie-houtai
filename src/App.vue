@@ -23,9 +23,14 @@
       <el-table-column prop="typeOfOrder" label="订单类型" width="120" />
 
       <el-table-column fixed="right" label="操作" width="120">
-        <template #default>
+        <template #default="scope">
           <el-button link type="primary" size="small">修改信息</el-button>
-          <el-button link type="primary" size="small" @click="onDel(index)">
+          <el-button
+            link
+            type="primary"
+            size="small"
+            @click="onDel(scope.row, scope.$index)"
+          >
             删除
           </el-button>
         </template>
@@ -61,12 +66,13 @@ export default {
       console.log("reset form item");
       this.formData = {};
     },
-    onDel(index) {
+    onDel(tableData, index) {
       console.log("im deleted");
-      console.log(this.tableData.indexOf(index));
+      console.log(this.tableData);
       this.tableData.splice(index, 1);
     },
   },
 };
 </script>
+
 
