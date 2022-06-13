@@ -67,7 +67,7 @@ export default {
       this.formData = {};
     },
     onDel(tableData, index) {
-      console.log("im deleted");
+      console.log("delete this row");
       console.log(this.tableData);
       this.tableData.splice(index, 1);
     },
