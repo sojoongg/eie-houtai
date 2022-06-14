@@ -2,14 +2,21 @@
   <el-form :model="{ formData }" label-width="120px">
     <el-form-item label="运单号">
       <el-input ref="DOrder" v-model="formData.DOrder" />
+
+      <strong v-if="this.errors.length" style="color: red"
+        >Please enter the Delivery Order</strong
+      >
     </el-form-item>
 
     <el-form-item label="客户 ID">
       <el-input v-model="formData.customerID" />
+      <strong v-if="this.errors.length" style="color: red"
+        >Please enter the Customer ID</strong
+      >
     </el-form-item>
 
     <el-form-item>
-      <el-button type="primary" @click.prevent="onSubmit">确认到库</el-button>
+      <el-button type="primary" @click="checkForm">确认到库</el-button>
       <el-button @click="onCancel">清除</el-button>
     </el-form-item>
   </el-form>
@@ -50,12 +57,32 @@ export default {
         customerID: "",
       },
       tableData: [],
+      errors: [],
     };
   },
 
   methods: {
+    checkForm(e) {
+      e.preventDefault();
+      this.errors = [];
+      // validate if input field is empty or not
+      // validate if input field is empty or not
+      // validate if input field is empty or not
+      if (!this.formData.DOrder) {
+        this.errors.push("The Delivery Order is required");
+      }
+      if (!this.formData.customerID) {
+        this.errors.push("The Customer ID is required");
+      }
+      // if form is not empty, then submit the form
+      // if form is not empty, then submit the form
+      // if form is not empty, then submit the form
+      if (!this.errors.length) {
+        this.onSubmit();
+      }
+    },
     onSubmit() {
-      console.log(this.formData);
+      console.log("form is succefully submitted", this.formData);
 
       this.tableData.push({
         deliveryOrder: this.formData.DOrder,
