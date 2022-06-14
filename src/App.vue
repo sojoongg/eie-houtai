@@ -77,27 +77,40 @@ export default {
       // // DPD 运单号格式
       const DPDDOIsvalid = /0150[0-9]{5}$|0944[0-9]{5}$/;
 
-      // // UPS 运单号格式
+      // // // UPS 运单号格式
       const UPSDOIsValid = /1Z[0-9]{5}$/;
 
-      // // Hermes 运单号格式
+      // // // Hermes 运单号格式
       const HermesDOIsValid = /H10[0-9]{5}$/;
 
-      // Amazon 运单号格式
+      // // Amazon 运单号格式
       const AmzDOIsValid = /AA[0-9]{5}$|AB[0-9]{5}$/;
 
       const DOs = this.formData.DOrder;
 
-      var DOrderResult =
-        DHLDOIsValid.test(DOs) ||
-        DPDDOIsvalid.test(DOs) ||
-        UPSDOIsValid.test(DOs) ||
-        HermesDOIsValid.test(DOs) ||
-        AmzDOIsValid.test(DOs);
+      // var DOrderResult =
+      //   DHLDOIsValid.test(DOs) ||
+      //   DPDDOIsvalid.test(DOs) ||
+      //   UPSDOIsValid.test(DOs) ||
+      //   HermesDOIsValid.test(DOs) ||
+      //   AmzDOIsValid.test(DOs);
+
+      // var DPD = DPDDOIsvalid.test(DOs);
 
       var customerIDResult = customerIDIsValid.test(this.formData.customerID);
-      const formIsValid = DOrderResult && customerIDResult;
-      const formIsValid2 = DOrderResult;
+      var DHLvalid = DHLDOIsValid.test(DOs) && customerIDResult;
+      var DHLvalid2 = DHLDOIsValid.test(DOs);
+      var DPDvalid = DPDDOIsvalid.test(DOs) && customerIDResult;
+      var DPDvalid2 = DPDDOIsvalid.test(DOs);
+      var UPSvalid = UPSDOIsValid.test(DOs) && customerIDResult;
+      var UPSvalid2 = UPSDOIsValid.test(DOs);
+      var Hermesvalid = HermesDOIsValid.test(DOs) && customerIDResult;
+      var Hermesvalid2 = HermesDOIsValid.test(DOs);
+      var Amzvalid = AmzDOIsValid.test(DOs) && customerIDResult;
+      var Amzvalid2 = AmzDOIsValid.test(DOs);
+
+      // const formIsValid = DOrderResult && customerIDResult;
+      // const formIsValid2 = DOrderResult;
       // const AmzIsValid = AmzDOIsValid.test(DOs) && customerIDResult;
 
       // validate if input field is empty or not
@@ -115,19 +128,38 @@ export default {
       //   this.onSubmit();
       // }
 
-      if (formIsValid || formIsValid2) {
-        this.onSubmit();
+      if (DHLvalid || DHLvalid2) {
+        this.onSubmitToDHL();
       } else {
         console.log("form is invalid");
       }
-
+      if (DPDvalid || DPDvalid2) {
+        this.onSubmitToDPD();
+      } else {
+        console.log("form is invalid");
+      }
+      if (UPSvalid || UPSvalid2) {
+        this.onSubmitToUPS();
+      } else {
+        console.log("form is invalid");
+      }
+      if (Hermesvalid || Hermesvalid2) {
+        this.onSubmitTohHermes();
+      } else {
+        console.log("form is invalid");
+      }
+      if (Amzvalid || Amzvalid2) {
+        this.onSubmitTohHermes();
+      } else {
+        console.log("form is invalid");
+      }
       // if (formIsValid) {
       //   this.onSubmit();
       // } else {
       //   console.log("form is invalid");
       // }
     },
-    onSubmit() {
+    onSubmitToDHL() {
       console.log("form is succefully submitted", this.formData);
 
       if (!this.formData.customerID) {
@@ -135,12 +167,95 @@ export default {
           deliveryOrder: this.formData.DOrder,
           customerID: this.formData.customerID,
           typeOfOrder: "无ID订单",
+          companyName: "DHL",
         });
+        alert("确定无客户ID");
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
           customerID: this.formData.customerID,
           typeOfOrder: "正常订单",
+          companyName: "DHL",
+        });
+      }
+    },
+    onSubmitToDPD() {
+      console.log("form is succefully submitted", this.formData);
+
+      if (!this.formData.customerID) {
+        this.tableData.push({
+          deliveryOrder: this.formData.DOrder,
+          customerID: this.formData.customerID,
+          typeOfOrder: "无ID订单",
+          companyName: "DPD",
+        });
+        alert("确定无客户ID");
+      } else {
+        this.tableData.push({
+          deliveryOrder: this.formData.DOrder,
+          customerID: this.formData.customerID,
+          typeOfOrder: "正常订单",
+          companyName: "DPD",
+        });
+      }
+    },
+    onSubmitToUPS() {
+      console.log("form is succefully submitted", this.formData);
+
+      if (!this.formData.customerID) {
+        this.tableData.push({
+          deliveryOrder: this.formData.DOrder,
+          customerID: this.formData.customerID,
+          typeOfOrder: "无ID订单",
+          companyName: "UPS",
+        });
+        alert("确定无客户ID");
+      } else {
+        this.tableData.push({
+          deliveryOrder: this.formData.DOrder,
+          customerID: this.formData.customerID,
+          typeOfOrder: "正常订单",
+          companyName: "UPS",
+        });
+      }
+    },
+    onSubmitTohHermes() {
+      console.log("form is succefully submitted", this.formData);
+
+      if (!this.formData.customerID) {
+        this.tableData.push({
+          deliveryOrder: this.formData.DOrder,
+          customerID: this.formData.customerID,
+          typeOfOrder: "无ID订单",
+          companyName: "Hermes",
+        });
+        alert("确定无客户ID");
+      } else {
+        this.tableData.push({
+          deliveryOrder: this.formData.DOrder,
+          customerID: this.formData.customerID,
+          typeOfOrder: "正常订单",
+          companyName: "Hermes",
+        });
+      }
+    },
+    onSubmitToAmz() {
+      console.log("form is succefully submitted", this.formData);
+
+      if (!this.formData.customerID) {
+        this.tableData.push({
+          deliveryOrder: this.formData.DOrder,
+          customerID: this.formData.customerID,
+          typeOfOrder: "无ID订单",
+          companyName: "Amazon",
+        });
+        alert("确定无客户ID");
+      } else {
+        this.tableData.push({
+          deliveryOrder: this.formData.DOrder,
+          customerID: this.formData.customerID,
+          typeOfOrder: "正常订单",
+          companyName: "Amazon",
         });
       }
     },
