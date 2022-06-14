@@ -1,17 +1,17 @@
 <template>
   <el-form :model="{ formData }" label-width="120px">
     <el-form-item label="运单号">
-      <el-input ref="DOrder" v-model="formData.DOrder" />
+      <el-input v-model="formData.DOrder" />
 
       <strong v-if="this.errors.length" style="color: red"
-        >Please enter the Delivery Order</strong
+        >Please enter a valid Delivery Order</strong
       >
     </el-form-item>
 
     <el-form-item label="客户 ID">
-      <el-input v-model="formData.customerID" />
+      <el-input v-model.number="formData.customerID" type="number" />
       <strong v-if="this.errors.length" style="color: red"
-        >Please enter the Customer ID</strong
+        >Please enter a valid Customer ID</strong
       >
     </el-form-item>
 
@@ -53,8 +53,8 @@ export default {
   data() {
     return {
       formData: {
-        DOrder: "",
-        customerID: "",
+        DOrder: null,
+        customerID: null,
       },
       tableData: [],
       errors: [],
@@ -64,30 +64,85 @@ export default {
   methods: {
     checkForm(e) {
       e.preventDefault();
+
+      // 运单号校验
+      // 运单号校验
+      // 运单号校验
+      // 客户ID格式 只能5位数eg：80656
+      const customerIDIsValid = /^[0-9]{5}$/;
+
+      // // DHL 运单号格式
+      const DHLDOIsValid = /JJD0039[0-9]{5}$|0034[0-9]{5}$/;
+
+      // // DPD 运单号格式
+      const DPDDOIsvalid = /0150[0-9]{5}$|0944[0-9]{5}$/;
+
+      // // UPS 运单号格式
+      const UPSDOIsValid = /1Z[0-9]{5}$/;
+
+      // // Hermes 运单号格式
+      const HermesDOIsValid = /H10[0-9]{5}$/;
+
+      // Amazon 运单号格式
+      const AmzDOIsValid = /AA[0-9]{5}$|AB[0-9]{5}$/;
+
+      const DOs = this.formData.DOrder;
+
+      var DOrderResult =
+        DHLDOIsValid.test(DOs) ||
+        DPDDOIsvalid.test(DOs) ||
+        UPSDOIsValid.test(DOs) ||
+        HermesDOIsValid.test(DOs) ||
+        AmzDOIsValid.test(DOs);
+
+      var customerIDResult = customerIDIsValid.test(this.formData.customerID);
+      const formIsValid = DOrderResult && customerIDResult;
+      const formIsValid2 = DOrderResult;
+      // const AmzIsValid = AmzDOIsValid.test(DOs) && customerIDResult;
+
+      // validate if input field is empty or not
       this.errors = [];
-      // validate if input field is empty or not
-      // validate if input field is empty or not
-      // validate if input field is empty or not
-      if (!this.formData.DOrder) {
+      if (!DOs) {
         this.errors.push("The Delivery Order is required");
       }
-      if (!this.formData.customerID) {
-        this.errors.push("The Customer ID is required");
-      }
-      // if form is not empty, then submit the form
-      // if form is not empty, then submit the form
-      // if form is not empty, then submit the form
-      if (!this.errors.length) {
+      // if (!this.formData.customerID) {
+      //   this.errors.push("The Customer ID is required");
+      // }
+      // // if form is not empty, then submit the form
+      // // if form is not empty, then submit the form
+      // // if form is not empty, then submit the form
+      // if (!this.errors.length) {
+      //   this.onSubmit();
+      // }
+
+      if (formIsValid || formIsValid2) {
         this.onSubmit();
+      } else {
+        console.log("form is invalid");
       }
+
+      // if (formIsValid) {
+      //   this.onSubmit();
+      // } else {
+      //   console.log("form is invalid");
+      // }
     },
     onSubmit() {
       console.log("form is succefully submitted", this.formData);
 
-      this.tableData.push({
-        deliveryOrder: this.formData.DOrder,
-        customerID: this.formData.customerID,
-      });
+      if (!this.formData.customerID) {
+        this.tableData.push({
+          deliveryOrder: this.formData.DOrder,
+          customerID: this.formData.customerID,
+          typeOfOrder: "无ID订单",
+        });
+      } else {
+        this.tableData.push({
+          deliveryOrder: this.formData.DOrder,
+          customerID: this.formData.customerID,
+          typeOfOrder: "正常订单",
+        });
+      }
     },
     onCancel() {
       console.log("reset form item");
