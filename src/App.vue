@@ -5,23 +5,40 @@
         <el-form-item label="运单号" style="padding-top: 5px">
           <el-input v-model="formData.DOrder" style="width: 300px" />
 
-          <strong v-if="this.errors.length" style="color: red"
-            >Please enter a valid Delivery Order</strong
-          >
+          <p v-if="this.errors.length" style="color: red">
+            Please enter a valid Delivery Order
+          </p>
         </el-form-item>
 
         <el-form-item label="客户 ID" style="padding-bottom: 5px">
-          <el-input
+          <!-- <el-input
             v-model.trim="formData.customerID"
             style="width: 100px; margin-left: -3px"
-          />
-          <el-button type="primary" @click="checkForm" style="margin-left: 40px"
+          /> -->
+          <el-select
+            v-model="formData.customerID"
+            multiple
+            filterable
+            allow-create
+            default-first-option
+            :reserve-keyword="false"
+            placeholder="请选择客户ID"
+            style="width: 300px; margin-left: -4px; margin-bottom: 5px"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <el-button type="primary" @click="checkForm" style="margin-left: -3px"
             >确认到库</el-button
           >
           <el-button @click="onCancel">清除</el-button>
-          <strong v-if="this.errors.length" style="color: red"
-            >Please enter a valid Customer ID</strong
-          >
+          <p v-if="this.errors.length" style="color: red">
+            Please enter a valid Customer ID
+          </p>
         </el-form-item>
       </div>
     </el-form>
@@ -68,6 +85,21 @@ export default {
       },
       tableData: [],
       errors: [],
+      value: [],
+      options: [
+        {
+          value: "80656",
+          label: "80656",
+        },
+        {
+          value: "80749",
+          label: "80749",
+        },
+        {
+          value: "80712",
+          label: "80712",
+        },
+      ],
     };
   },
 
@@ -269,9 +301,14 @@ export default {
 
 .formContent {
   width: 370px;
-  background-color: hsl(0, 0%, 95%);
+  background-color: hsl(0, 0%, 98%);
   padding-left: 5px;
   border-radius: 5px;
+}
+
+p {
+  margin: 0;
+  padding: 0;
 }
 
 .table {
