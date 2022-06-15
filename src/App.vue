@@ -1,25 +1,27 @@
 <template>
-  <el-form :model="{ formData }" label-width="120px">
-    <el-form-item label="运单号">
-      <el-input v-model="formData.DOrder" />
+  <div class="container">
+    <el-form :model="{ formData }" label-width="120px">
+      <el-form-item label="运单号">
+        <el-input v-model="formData.DOrder" />
 
-      <strong v-if="this.errors.length" style="color: red"
-        >Please enter a valid Delivery Order</strong
-      >
-    </el-form-item>
+        <strong v-if="this.errors.length" style="color: red"
+          >Please enter a valid Delivery Order</strong
+        >
+      </el-form-item>
 
-    <el-form-item label="客户 ID">
-      <el-input v-model.number="formData.customerID" type="number" />
-      <strong v-if="this.errors.length" style="color: red"
-        >Please enter a valid Customer ID</strong
-      >
-    </el-form-item>
+      <el-form-item label="客户 ID">
+        <el-input v-model.trim="formData.customerID" />
+        <strong v-if="this.errors.length" style="color: red"
+          >Please enter a valid Customer ID</strong
+        >
+      </el-form-item>
 
-    <el-form-item>
-      <el-button type="primary" @click="checkForm">确认到库</el-button>
-      <el-button @click="onCancel">清除</el-button>
-    </el-form-item>
-  </el-form>
+      <el-form-item>
+        <el-button type="primary" @click="checkForm">确认到库</el-button>
+        <el-button @click="onCancel">清除</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 
   <div class="container">
     <el-table :data="tableData" style="width: 100%">
@@ -88,15 +90,6 @@ export default {
 
       const DOs = this.formData.DOrder;
 
-      // var DOrderResult =
-      //   DHLDOIsValid.test(DOs) ||
-      //   DPDDOIsvalid.test(DOs) ||
-      //   UPSDOIsValid.test(DOs) ||
-      //   HermesDOIsValid.test(DOs) ||
-      //   AmzDOIsValid.test(DOs);
-
-      // var DPD = DPDDOIsvalid.test(DOs);
-
       var customerIDResult = customerIDIsValid.test(this.formData.customerID);
       var DHLvalid = DHLDOIsValid.test(DOs) && customerIDResult;
       var DHLvalid2 = DHLDOIsValid.test(DOs);
@@ -109,55 +102,26 @@ export default {
       var Amzvalid = AmzDOIsValid.test(DOs) && customerIDResult;
       var Amzvalid2 = AmzDOIsValid.test(DOs);
 
-      // const formIsValid = DOrderResult && customerIDResult;
-      // const formIsValid2 = DOrderResult;
-      // const AmzIsValid = AmzDOIsValid.test(DOs) && customerIDResult;
-
       // validate if input field is empty or not
       this.errors = [];
       if (!DOs) {
         this.errors.push("The Delivery Order is required");
       }
-      // if (!this.formData.customerID) {
-      //   this.errors.push("The Customer ID is required");
-      // }
-      // // if form is not empty, then submit the form
-      // // if form is not empty, then submit the form
-      // // if form is not empty, then submit the form
-      // if (!this.errors.length) {
-      //   this.onSubmit();
-      // }
 
+      // 判断运输公司以及订单类型
       if (DHLvalid || DHLvalid2) {
         this.onSubmitToDHL();
-      } else {
-        console.log("form is invalid");
-      }
-      if (DPDvalid || DPDvalid2) {
+      } else if (DPDvalid || DPDvalid2) {
         this.onSubmitToDPD();
-      } else {
-        console.log("form is invalid");
-      }
-      if (UPSvalid || UPSvalid2) {
+      } else if (UPSvalid || UPSvalid2) {
         this.onSubmitToUPS();
-      } else {
-        console.log("form is invalid");
-      }
-      if (Hermesvalid || Hermesvalid2) {
+      } else if (Hermesvalid || Hermesvalid2) {
         this.onSubmitTohHermes();
+      } else if (Amzvalid || Amzvalid2) {
+        this.onSubmitToAmz();
       } else {
         console.log("form is invalid");
       }
-      if (Amzvalid || Amzvalid2) {
-        this.onSubmitTohHermes();
-      } else {
-        console.log("form is invalid");
-      }
-      // if (formIsValid) {
-      //   this.onSubmit();
-      // } else {
-      //   console.log("form is invalid");
-      // }
     },
     onSubmitToDHL() {
       console.log("form is succefully submitted", this.formData);
