@@ -269,7 +269,7 @@ export default {
 
 .formContent {
   width: 370px;
-  background-color: #c7c7c7;
+  background-color: hsl(0, 0%, 95%);
   padding-left: 5px;
   border-radius: 5px;
 }
