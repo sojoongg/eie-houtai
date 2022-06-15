@@ -1,32 +1,35 @@
 <template>
   <div class="container">
-    <el-form :model="{ formData }" label-width="120px">
+    <el-form :model="{ formData }" label-width="">
       <el-form-item label="运单号">
-        <el-input v-model="formData.DOrder" />
+        <el-input v-model="formData.DOrder" style="width: 300px" />
 
         <strong v-if="this.errors.length" style="color: red"
           >Please enter a valid Delivery Order</strong
         >
       </el-form-item>
 
-      <el-form-item label="客户 ID">
-        <el-input v-model.trim="formData.customerID" />
+      <el-form-item class="customerID" label="客户 ID">
+        <el-input v-model.trim="formData.customerID" style="width: 100px" />
+        <el-button type="primary" @click="checkForm" style="margin-left: 40px"
+          >确认到库</el-button
+        >
+        <el-button @click="onCancel">清除</el-button>
         <strong v-if="this.errors.length" style="color: red"
           >Please enter a valid Customer ID</strong
         >
       </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary" @click="checkForm">确认到库</el-button>
-        <el-button @click="onCancel">清除</el-button>
-      </el-form-item>
     </el-form>
-  </div>
 
-  <div class="container">
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column type="index" prop="index" label="序号" width="150" />
-      <el-table-column prop="deliveryOrder" label="运单号" width="600" />
+    <el-table class="table" :data="tableData">
+      <el-table-column
+        fixed="left"
+        type="index"
+        prop="index"
+        label="序号"
+        width="90"
+      />
+      <el-table-column prop="deliveryOrder" label="运单号" width="300" />
       <el-table-column prop="companyName" label="运输公司" width="120" />
       <el-table-column prop="customerID" label="客户ID" width="120" />
       <el-table-column prop="typeOfOrder" label="订单类型" width="120" />
@@ -102,6 +105,18 @@ export default {
       var Amzvalid = AmzDOIsValid.test(DOs) && customerIDResult;
       var Amzvalid2 = AmzDOIsValid.test(DOs);
 
+      // var IsValid =
+      //   DHLvalid ||
+      //   DHLvalid2 ||
+      //   DPDvalid ||
+      //   DPDvalid2 ||
+      //   UPSvalid ||
+      //   UPSvalid2 ||
+      //   Hermesvalid ||
+      //   Hermesvalid2 ||
+      //   Amzvalid ||
+      //   Amzvalid2;
+
       // validate if input field is empty or not
       this.errors = [];
       if (!DOs) {
@@ -121,6 +136,7 @@ export default {
         this.onSubmitToAmz();
       } else {
         console.log("form is invalid");
+        this.IsNotValid();
       }
     },
     onSubmitToDHL() {
@@ -223,6 +239,9 @@ export default {
         });
       }
     },
+    IsNotValid() {
+      this.errors.push("Please enter valid information");
+    },
     onCancel() {
       console.log("reset form item");
       this.formData = {};
@@ -237,3 +256,19 @@ export default {
 </script>
 
 
+<style >
+.container {
+  width: 900px;
+  margin: 5% auto;
+}
+
+.table {
+  margin-top: 30px;
+}
+
+.customerID {
+  padding: 0;
+  justify-content: space-between;
+  margin-left: -4px;
+}
+</style>
