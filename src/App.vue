@@ -1,24 +1,29 @@
 <template>
   <div class="container">
     <el-form :model="{ formData }" label-width="">
-      <el-form-item label="运单号">
-        <el-input v-model="formData.DOrder" style="width: 300px" />
+      <div class="formContent">
+        <el-form-item label="运单号" style="padding-top: 5px">
+          <el-input v-model="formData.DOrder" style="width: 300px" />
 
-        <strong v-if="this.errors.length" style="color: red"
-          >Please enter a valid Delivery Order</strong
-        >
-      </el-form-item>
+          <strong v-if="this.errors.length" style="color: red"
+            >Please enter a valid Delivery Order</strong
+          >
+        </el-form-item>
 
-      <el-form-item class="customerID" label="客户 ID">
-        <el-input v-model.trim="formData.customerID" style="width: 100px" />
-        <el-button type="primary" @click="checkForm" style="margin-left: 40px"
-          >确认到库</el-button
-        >
-        <el-button @click="onCancel">清除</el-button>
-        <strong v-if="this.errors.length" style="color: red"
-          >Please enter a valid Customer ID</strong
-        >
-      </el-form-item>
+        <el-form-item label="客户 ID" style="padding-bottom: 5px">
+          <el-input
+            v-model.trim="formData.customerID"
+            style="width: 100px; margin-left: -3px"
+          />
+          <el-button type="primary" @click="checkForm" style="margin-left: 40px"
+            >确认到库</el-button
+          >
+          <el-button @click="onCancel">清除</el-button>
+          <strong v-if="this.errors.length" style="color: red"
+            >Please enter a valid Customer ID</strong
+          >
+        </el-form-item>
+      </div>
     </el-form>
 
     <el-table class="table" :data="tableData">
@@ -262,13 +267,14 @@ export default {
   margin: 5% auto;
 }
 
-.table {
-  margin-top: 30px;
+.formContent {
+  width: 370px;
+  background-color: #c7c7c7;
+  padding-left: 5px;
+  border-radius: 5px;
 }
 
-.customerID {
-  padding: 0;
-  justify-content: space-between;
-  margin-left: -4px;
+.table {
+  margin-top: 30px;
 }
 </style>
