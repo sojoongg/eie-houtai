@@ -175,7 +175,7 @@ export default {
       } else if (UPSvalid || UPSvalid2) {
         this.onSubmitToUPS();
       } else if (Hermesvalid || Hermesvalid2) {
-        this.onSubmitTohHermes();
+        this.onSubmitToHermes();
       } else if (Amzvalid || Amzvalid2) {
         this.onSubmitToAmz();
       } else {
@@ -184,20 +184,21 @@ export default {
       }
     },
     onSubmitToDHL() {
-      console.log("form is succefully submitted", this.formData);
-      // const idx = this.options.indexOf(80712);
+      console.log(
+        "form is succefully submitted",
+        this.formData.DOrder,
+        this.value
+      );
 
-      // if (!idx) {
-      //   this.tableData.push({
-      //     deliveryOrder: this.formData.DOrder,
-      //     customerID: "无客户ID",
-      //     typeOfOrder: "无ID订单",
-      //     companyName: "DHL",
-      //   });
-      //   alert("确定无客户ID");
-      // }
       if (!this.value.length) {
         alert("请选择一个客户ID");
+      } else if (this.value == "无客户ID") {
+        this.tableData.push({
+          deliveryOrder: this.formData.DOrder,
+          customerID: "无客户ID",
+          typeOfOrder: "无ID订单",
+          companyName: "DHL",
+        });
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
@@ -208,80 +209,100 @@ export default {
       }
     },
     onSubmitToDPD() {
-      console.log("form is succefully submitted", this.formData);
+      console.log(
+        "form is succefully submitted",
+        this.formData.DOrder,
+        this.value
+      );
 
-      if (!this.formData.customerID) {
+      if (!this.value.length) {
+        alert("请选择一个客户ID");
+      } else if (this.value == "无客户ID") {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
-          customerID: this.formData.customerID,
+          customerID: "无客户ID",
           typeOfOrder: "无ID订单",
           companyName: "DPD",
         });
-        alert("确定无客户ID");
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
-          customerID: this.formData.customerID,
+          customerID: this.value,
           typeOfOrder: "正常订单",
           companyName: "DPD",
         });
       }
     },
     onSubmitToUPS() {
-      console.log("form is succefully submitted", this.formData);
+      console.log(
+        "form is succefully submitted",
+        this.formData.DOrder,
+        this.value
+      );
 
-      if (!this.formData.customerID) {
+      if (!this.value.length) {
+        alert("请选择一个客户ID");
+      } else if (this.value == "无客户ID") {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
-          customerID: this.formData.customerID,
+          customerID: "无客户ID",
           typeOfOrder: "无ID订单",
           companyName: "UPS",
         });
-        alert("确定无客户ID");
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
-          customerID: this.formData.customerID,
+          customerID: this.value,
           typeOfOrder: "正常订单",
           companyName: "UPS",
         });
       }
     },
-    onSubmitTohHermes() {
-      console.log("form is succefully submitted", this.formData);
+    onSubmitToHermes() {
+      console.log(
+        "form is succefully submitted",
+        this.formData.DOrder,
+        this.value
+      );
 
-      if (!this.formData.customerID) {
+      if (!this.value.length) {
+        alert("请选择一个客户ID");
+      } else if (this.value == "无客户ID") {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
-          customerID: this.formData.customerID,
+          customerID: "无客户ID",
           typeOfOrder: "无ID订单",
           companyName: "Hermes",
         });
-        alert("确定无客户ID");
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
-          customerID: this.formData.customerID,
+          customerID: this.value,
           typeOfOrder: "正常订单",
           companyName: "Hermes",
         });
       }
     },
     onSubmitToAmz() {
-      console.log("form is succefully submitted", this.formData);
+      console.log(
+        "form is succefully submitted",
+        this.formData.DOrder,
+        this.value
+      );
 
-      if (!this.formData.customerID) {
+      if (!this.value.length) {
+        alert("请选择一个客户ID");
+      } else if (this.value == "无客户ID") {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
-          customerID: this.formData.customerID,
+          customerID: "无客户ID",
           typeOfOrder: "无ID订单",
           companyName: "Amazon",
         });
-        alert("确定无客户ID");
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
-          customerID: this.formData.customerID,
+          customerID: this.value,
           typeOfOrder: "正常订单",
           companyName: "Amazon",
         });
