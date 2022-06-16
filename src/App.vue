@@ -3,7 +3,11 @@
     <el-form :model="{ formData }" label-width="">
       <div class="formContent">
         <el-form-item label="运单号" style="padding-top: 5px">
-          <el-input v-model="formData.DOrder" style="width: 300px" />
+          <el-input
+            v-model="formData.DOrder"
+            style="width: 300px"
+            @keyup.enter="logDO"
+          />
 
           <p v-if="this.errors.length" style="color: red">
             Please enter a valid Delivery Order
@@ -17,7 +21,6 @@
           /> -->
           <el-select
             v-model="value"
-            multiple
             filterable
             allow-create
             default-first-option
@@ -109,6 +112,10 @@ export default {
   },
 
   methods: {
+    logDO() {
+      console.log("You entered a delivery order");
+      this.options;
+    },
     checkForm(e) {
       e.preventDefault();
 
