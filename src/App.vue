@@ -16,7 +16,7 @@
             style="width: 100px; margin-left: -3px"
           /> -->
           <el-select
-            v-model="formData.customerID"
+            v-model="value"
             multiple
             filterable
             allow-create
@@ -99,6 +99,7 @@ export default {
           value: "80712",
           label: "80712",
         },
+        // 无客户ID位置放在最下，移动位置会影响判断
         {
           value: "无客户ID",
           label: "无客户ID",
@@ -115,7 +116,7 @@ export default {
       // 运单号校验
       // 运单号校验
       // 客户ID格式 只能5位数eg：80656
-      const customerIDIsValid = /^[0-9]{5}$/;
+      // const customerIDIsValid = /^[0-9]{5}$/;
 
       // // DHL 运单号格式
       const DHLDOIsValid = /JJD0039[0-9]{5}$|0034[0-9]{5}$/;
@@ -134,7 +135,9 @@ export default {
 
       const DOs = this.formData.DOrder;
 
-      var customerIDResult = customerIDIsValid.test(this.formData.customerID);
+      // var customerIDResult = customerIDIsValid.test(this.formData.customerID);
+      var customerIDResult = this.options.value;
+
       var DHLvalid = DHLDOIsValid.test(DOs) && customerIDResult;
       var DHLvalid2 = DHLDOIsValid.test(DOs);
       var DPDvalid = DPDDOIsvalid.test(DOs) && customerIDResult;
@@ -182,19 +185,23 @@ export default {
     },
     onSubmitToDHL() {
       console.log("form is succefully submitted", this.formData);
+      // const idx = this.options.indexOf(80712);
 
-      if (!this.formData.customerID) {
-        this.tableData.push({
-          deliveryOrder: this.formData.DOrder,
-          customerID: this.formData.customerID,
-          typeOfOrder: "无ID订单",
-          companyName: "DHL",
-        });
-        alert("确定无客户ID");
+      // if (!idx) {
+      //   this.tableData.push({
+      //     deliveryOrder: this.formData.DOrder,
+      //     customerID: "无客户ID",
+      //     typeOfOrder: "无ID订单",
+      //     companyName: "DHL",
+      //   });
+      //   alert("确定无客户ID");
+      // }
+      if (!this.value.length) {
+        alert("请选择一个客户ID");
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
-          customerID: this.formData.customerID,
+          customerID: this.value,
           typeOfOrder: "正常订单",
           companyName: "DHL",
         });
