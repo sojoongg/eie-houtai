@@ -4,9 +4,10 @@
       <div class="formContent">
         <el-form-item label="运单号" style="padding-top: 5px">
           <el-input
+            id="DO"
             v-model="formData.DOrder"
             style="width: 300px"
-            @keyup.enter="logDO"
+            @keyup.enter="goToSelect"
           />
 
           <p v-if="this.errors.length" style="color: red">
@@ -20,6 +21,7 @@
             style="width: 100px; margin-left: -3px"
           /> -->
           <el-select
+            id="select"
             v-model="value"
             filterable
             allow-create
@@ -27,6 +29,7 @@
             :reserve-keyword="false"
             placeholder="请选择客户ID"
             style="width: 300px; margin-left: -4px; margin-bottom: 5px"
+            @keyup.enter="goToButton"
           >
             <el-option
               v-for="item in options"
@@ -35,7 +38,11 @@
               :value="item.value"
             />
           </el-select>
-          <el-button type="primary" @click="checkForm" style="margin-left: -3px"
+          <el-button
+            id="submitBtn"
+            type="primary"
+            @click="checkForm"
+            style="margin-left: -3px"
             >确认到库</el-button
           >
           <el-button @click="onCancel">清除</el-button>
@@ -102,7 +109,6 @@ export default {
           value: "80712",
           label: "80712",
         },
-        // 无客户ID位置放在最下，移动位置会影响判断
         {
           value: "无客户ID",
           label: "无客户ID",
@@ -112,12 +118,18 @@ export default {
   },
 
   methods: {
-    logDO() {
-      console.log("You entered a delivery order");
-      this.options;
-    },
-    checkForm(e) {
+    goToSelect(e) {
       e.preventDefault();
+
+      console.log("enter keyboard event is triggered");
+      document.getElementById("select").click();
+    },
+    goToButton() {
+      console.log("go to button function triggered");
+      document.getElementById("submitBtn").click();
+    },
+    checkForm() {
+      // e.preventDefault();
 
       // 运单号校验
       // 运单号校验
@@ -206,6 +218,7 @@ export default {
           typeOfOrder: "无ID订单",
           companyName: "DHL",
         });
+        document.getElementById("DO").select();
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
@@ -213,6 +226,7 @@ export default {
           typeOfOrder: "正常订单",
           companyName: "DHL",
         });
+        document.getElementById("DO").select();
       }
     },
     onSubmitToDPD() {
@@ -231,6 +245,7 @@ export default {
           typeOfOrder: "无ID订单",
           companyName: "DPD",
         });
+        document.getElementById("DO").select();
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
@@ -239,6 +254,7 @@ export default {
           companyName: "DPD",
         });
       }
+      document.getElementById("DO").select();
     },
     onSubmitToUPS() {
       console.log(
@@ -256,6 +272,7 @@ export default {
           typeOfOrder: "无ID订单",
           companyName: "UPS",
         });
+        document.getElementById("DO").select();
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
@@ -264,6 +281,7 @@ export default {
           companyName: "UPS",
         });
       }
+      document.getElementById("DO").select();
     },
     onSubmitToHermes() {
       console.log(
@@ -281,6 +299,7 @@ export default {
           typeOfOrder: "无ID订单",
           companyName: "Hermes",
         });
+        document.getElementById("DO").select();
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
@@ -288,6 +307,7 @@ export default {
           typeOfOrder: "正常订单",
           companyName: "Hermes",
         });
+        document.getElementById("DO").select();
       }
     },
     onSubmitToAmz() {
@@ -306,6 +326,7 @@ export default {
           typeOfOrder: "无ID订单",
           companyName: "Amazon",
         });
+        document.getElementById("DO").select();
       } else {
         this.tableData.push({
           deliveryOrder: this.formData.DOrder,
@@ -313,6 +334,7 @@ export default {
           typeOfOrder: "正常订单",
           companyName: "Amazon",
         });
+        document.getElementById("DO").select();
       }
     },
     IsNotValid() {
